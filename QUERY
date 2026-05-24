@@ -1,0 +1,117 @@
+-- =============================================
+-- CREAZIONE LOGIN swd2426
+-- =============================================
+-- Eseguire da SSMS con account amministratore
+-- Security -> Logins -> New Login:
+-- Login name: swd2426
+-- Authentication: SQL Server Authentication
+-- Password: its-2026
+-- Deselezionare "Enforce password policy"
+-- Default database: master
+-- User Mapping: spuntare Autovelox -> ruolo db_owner
+
+-- =============================================
+-- 1. VERIFICA 100 RECORD PIEMONTE
+--    Connettersi con utente swd2426 e verificare
+--    che l'account operi solo su Autovelox
+-- =============================================
+USE [Autovelox];
+GO
+
+SELECT m.*
+FROM Mappa m
+INNER JOIN Comune c ON m.IdComune = c.IdComune
+INNER JOIN Provincia p ON c.IdProvincia = p.Id
+INNER JOIN Regione r ON p.IdRegione = r.Id
+WHERE r.Denominazione = 'Piemonte';
+-- Risultato atteso: 100 record
+
+-- =============================================
+-- 2. CORREZIONE LATITUDINE E LONGITUDINE
+--    I valori sono memorizzati come interi
+--    e vanno normalizzati al range corretto:
+--    Latitudine Italia: 36-47
+--    Longitudine Italia: 6-18
+--    Si divide ripetutamente per 10 finché
+--    i valori non rientrano nel range corretto
+-- =============================================
+
+-- Correzione Latitudine
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+UPDATE Mappa SET Latitudine = Latitudine / 10.0 WHERE Latitudine > 47;
+
+-- Correzione Longitudine
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+UPDATE Mappa SET Longitudine = Longitudine / 10.0 WHERE Longitudine > 18;
+
+-- Verifica risultato correzione:
+-- Latitudine MIN: 37.49  MAX: 46.63
+-- Longitudine MIN: 7.51  MAX: 17.20
+SELECT MIN(Latitudine), MAX(Latitudine), MIN(Longitudine), MAX(Longitudine)
+FROM Mappa;
+
+-- =============================================
+-- 3. AUTOVELOX SUL 45° PARALLELO
+--    Latitudine compresa tra 45.0 e 46.0
+-- =============================================
+SELECT *
+FROM Mappa
+WHERE Latitudine >= 45.0 AND Latitudine < 46.0;
+
+-- =============================================
+-- 4. COMUNI CON ALMENO UN AUTOVELOX
+--    NELLA PROVINCIA DI TERAMO
+--    Risultato: Francavilla al Mare
+-- =============================================
+SELECT c.Denominazione AS Comune
+FROM Mappa m
+INNER JOIN Comune c ON m.IdComune = c.IdComune
+INNER JOIN Provincia p ON c.IdProvincia = p.Id
+WHERE p.Denominazione = 'Teramo'
+GROUP BY c.Denominazione
+HAVING COUNT(m.Id) >= 1
+ORDER BY c.Denominazione;
+
+-- =============================================
+-- 5. ANNO DI INSTALLAZIONE E NUMERO DI COMUNI
+--    CHE HANNO INSTALLATO AUTOVELOX
+--    Risultati:
+--    2009 -> 16 comuni
+--    2010 -> 29 comuni
+--    2011 -> 50 comuni
+--    2012 -> 109 comuni
+--    2013 -> 183 comuni
+--    2014 -> 163 comuni
+--    2015 -> 195 comuni
+--    2016 -> 27 comuni
+-- =============================================
+SELECT 
+    m.AnnoInserimento AS Anno,
+    COUNT(DISTINCT m.IdComune) AS NumeroComuni
+FROM Mappa m
+GROUP BY m.AnnoInserimento
+ORDER BY m.AnnoInserimento;
