@@ -1,0 +1,95 @@
+DOMANDE AWS 
+
+ 
+
+ 
+
+Un’azienda vuole migliorare la disponibilità della propria applicazione web in esecuzione su 
+Amazon EC2. Attualmente l’applicazione è ospitata in un’unica Availability Zone. Quale delle 
+seguenti soluzioni migliora la disponibilità in modo più efficace?  
+
+ 
+
+-  ?  
+
+ 
+
+ 
+
+Un’azienda vuole spostare un database relazionale on-premise in AWS con il minimo sforzo 
+operativo per la gestione dell’infrastruttura. Quale servizio è più appropriato?  
+
+ 
+
+- Amazon RDS. 
+
+ 
+
+ 
+
+Un’applicazione web multi-tier è ospitata su AWS. Il livello web gira su istanze EC2 dietro un 
+Application Load Balancer. Il database è su Amazon RDS. L’azienda vuole ridurre il downtime in 
+caso di guasto a una AZ. Cosa dovrebbe fare l’architetto?  
+
+ 
+
+- Abilitare Multi AZ come opzione su RDS e distribuire le istanze su diverse availability 
+zone. 
+
+ 
+
+ 
+
+Un’azienda sta progettando un’architettura altamente scalabile per un’applicazione web globale. 
+Gli utenti devono essere indirizzati automaticamente alla regione AWS più vicina con la latenza 
+più bassa. Inoltre, il sistema deve gestire failover automatico tra regioni in caso di guasti. Quale 
+soluzione è la più adatta?  
+
+ 
+
+- Utilizzare Amazon ROUTE 53 con routing basato su latenza e helt check. 
+
+ 
+
+ 
+
+Un’azienda vuole connettere la propria rete on-premise a una VPC in AWS con latenza minima e 
+alta sicurezza. Quale opzione è la più indicata?  
+
+ 
+
+- AWS Direct Connect 
+
+ 
+
+ 
+
+Per soddisfare requisiti di sicurezza, l’azienda deve cifrare i dati a riposo su S3 e controllare le 
+chiavi di cifratura. Quale opzione è corretta?  
+
+ 
+
+- sse - kms 
+
+ 
+
+ 
+
+Un’applicazione serverless deve elaborare eventi da S3 in modo automatico. Quale combinazione 
+è più appropriata?  
+
+ 
+
+- S3 + Lambda + SNS. 
+
+
+ 
+
+ 
+
+Un’azienda vuole ridurre i costi del proprio ambiente di test in EC2, che è attivo solo durante 
+l’orario lavorativo. Cosa dovrebbe implementare?  
+
+ 
+
+- Lamda per eseguire automaticamente start/stop delle istanze EC2 in base agli orari. 
